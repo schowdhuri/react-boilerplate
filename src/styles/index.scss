@@ -1,0 +1,22 @@
+@import url("../../node_modules/skeleton-css/css/skeleton.css");
+
+.btn-add {
+    outline: none;
+    border: none;
+    background: none;
+}
+.todo-list {
+    list-style-type: none;
+    .todo-item {
+        label {
+            font-weight: 400;
+        }
+        &.completed {
+            text-decoration: line-through;
+            label {
+                opacity: 0.7;
+                font-style: italic;
+            }
+        }
+    }
+}
