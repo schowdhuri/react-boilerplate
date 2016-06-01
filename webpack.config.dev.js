@@ -9,17 +9,24 @@ const GLOBALS = {
 export default {
     debug: true,
     context: __dirname,
-    devtool: "eval-cheap-module-source-map",
+    devtool: "cheap-module-eval-source-map",
     entry: {
-        whm: "webpack-hot-middleware/client?reload=true",
-        app: "./src/index"
+        app: [
+            "webpack-hot-middleware/client?reload=true",
+            "./src/index"
+        ]
     },
     target: "web", // necessary per https://webpack.github.io/docs/testing.html#compile-and-test
     output: {
-        path: __dirname + "/dist",
+        path: path.join(__dirname, "dist"),
         publicPath: "/",
         filename: "[name].bundle.js"
     },
+    plugins: [
+        new webpack.DefinePlugin(GLOBALS), //Tells React to build in prod mode. https://facebook.github.io/react/downloads.htmlnew webpack.HotModuleReplacementPlugin());
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoErrorsPlugin()
+    ],
     module: {
         loaders: [{
             test: /\.js$/,
@@ -30,10 +37,5 @@ export default {
             include: path.join(__dirname, "src/styles"),
             loaders: ["style", "css?sourceMap", "sass?sourceMap"]
         }]
-    },
-    plugins: [
-        new webpack.DefinePlugin(GLOBALS), //Tells React to build in prod mode. https://facebook.github.io/react/downloads.htmlnew webpack.HotModuleReplacementPlugin());
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin()
-    ]
+    }
 };
